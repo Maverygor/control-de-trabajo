@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>caraya</title>
+</head>
+<body>
+    <!--boton operacion-->
+    <button id="operacionBtn1"
+    style="width: 150px; height: 30px; background-color: moccasin; color: black;
+    font-size: 20px; justify-content: center; position: absolute; top: 1%; border: none; border-radius: 5%;
+    cursor: pointer;">Operacion</button>
+
+    <!--campo oculto para escrivir la operacion-->
+    <div id="campo1" style="display: none; position: absolute; top: 10%;">
+        <input type="text" id="nombreOperacion" placeholder="nombre de la operacion">
+        <button id="guardarBtn1">Guardar</button>
+    </div>
+    <!--resultado debajo del boton operacion-->
+    <div id="resultado1" style="position: absolute; top: 7%;"></div>
+
+    <!--boton operario-->
+    <button id="operarioBtn2"
+    style="width: 150px; height: 30px; background-color: lightgreen; color: black;
+    font-size: 20px; justify-content: center; position: absolute; top: 1%; left: 57%; border: none; border-radius: 5%;
+    cursor: pointer;">Operario</button>
+
+    <!--campo ocul;to para escrivir el operario-->
+    <div id="campo2" style="display: none; position: absolute; top: 10%;">
+        <input type="text" id="nombreOperario" placeholder="nombre del operario">
+        <button id="guardarBtn2">Guardar</button>
+    </div>
+    <!--resultado debajo del boton operario-->
+    <div id="resultado2" style="position: absolute; top: 7%; left: 70%;"></div>
+
+    <!--boton redondo-->
+    <button id="redondoBtn"
+    style="border-radius: 50%; width: 200px; height: 200px; background-color: #4CAF50;
+    justify-content: center; position: absolute; top: 30%; left: 25%; border: none;
+    cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    "><span class="top" style="font-size: 20px; color: white; position: absolute; top: 10%; display: none;">0</span>
+      <span class="center" style="font-size: 60px; color: black;">0</span>
+      <span class="height" style="font-size: 20px; color: white; position: absolute; top: 80%; display: none;">0</span></button>
+
+    <!--boton meta-->
+    <button style="width: 80px; height: 80px; background-color: darkgray; color: black;
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 10%; border: none;
+    border-radius: 5%; cursor: pointer; line-height: 1.4;">Meta<br>0</button>
+
+    <!--boton ritmo-->
+    <button style="width: 80px; height: 80px; background-color: darkgrey; color: black;
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 40%; border: none;
+    border-radius: 5%; line-height: 1.4;">Ritmo<br>0</button>
+
+    <!--boton dia-->
+    <button style="width: 80px; height: 80px; background-color: darkgrey; color: black; 
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 70%; border: none;
+    border-radius: 5%; line-height: 1.4;">Dia<br>0</button>
+
+    <!--boton de cerrar secion-->
+    <button style="width: 150px; height: 30px; background-color: indianred; color: black; 
+    font-size: 20px; justify-content: center; position: absolute; top: 90%; border: none;
+    border-radius: 5%; cursor: pointer;">Cerrar Sesion</button>
+
+    <script>
+        //operacion
+        const operacionBtn1 = document.getElementById("operacionBtn1");
+        const campo1 = document.getElementById("campo1");
+        const guardarBtn1 = document.getElementById("guardarBtn1");
+        const input1 = document.getElementById("nombreOperacion");
+        const resultado1 = document.getElementById("resultado1");
+        //mostrar campo al aser clic
+        operacionBtn1.addEventListener("click", () => {
+            campo1.style.display = "block";
+            input1.focus();
+        });
+         // Guardar el nombre escrito
+    guardarBtn1.addEventListener("click", () => {
+      const texto = input1.value.trim();
+      if (texto !== "") {
+        // Mostrar operación debajo
+        const p = document.createElement("p");
+        p.textContent = "⛏️" + texto;
+        resultado1.appendChild(p);
+
+        // Limpiar
+        input1.value = "";
+        campo1.style.display = "none";
+      }
+    });
+    //operario
+    const operarioBtn2 = document.getElementById("operarioBtn2");
+    const campo2 = document.getElementById("campo2");
+    const guardarBtn2 = document.getElementById("guardarBtn2");
+    const input2 = document.getElementById("nombreOperario");
+    const resultado2 = document.getElementById("resultado2");
+        //mostrar campo al aser clic
+        operarioBtn2.addEventListener("click", () => {
+            campo2.style.display = "block";
+            input2.focus();
+        });
+         // Guardar el nombre escrito
+    guardarBtn2.addEventListener("click", () => {
+      const texto = input2.value.trim();
+      if (texto !== "") {
+        // Mostrar operación debajo
+        const p = document.createElement("p");
+        p.textContent = "👷" + texto;
+        resultado2.appendChild(p);
+
+        // Limpiar
+        input2.value = "";
+        campo2.style.display = "none";
+      }
+    });
+    //boton redondo
+    const redondoBtn = document.getElementById("redondoBtn");
+    const topNum = redondoBtn.querySelector(".top");
+    const centerNum = redondoBtn.querySelector(".center");
+    const heightNum = redondoBtn.querySelector(".height");
+
+    let clickCount = 0;
+    let timer = null;
+    let seconds = 0;
+
+    redondoBtn.addEventListener("click", () => {
+      clickCount++;
+      centerNum.textContent = clickCount;
+
+      if (clickCount === 1) {
+        // primer click inicia contador abajo
+        seconds = 0;
+        heightNum.textContent = seconds;
+        heightNum.style.display = "block";
+
+        timer = setInterval(() => {
+          seconds++;
+          heightNum.textContent = seconds;
+        }, 1000);
+      
+      }else{
+        // en el siguente click
+        // mostrara el resultado exacto arriba
+        //reiniciara el contador abajo
+        topNum.textContent = seconds;
+        topNum.style.display = "block";
+
+        clearInterval(timer);
+
+        //reiniciar abajo
+        seconds = 0;
+
+        heightNum.textContent = seconds;
+        heightNum.style.display = "block";
+
+        timer = setInterval(() => {
+          seconds++;
+          heightNum.textContent = seconds;
+        }, 1000);
+      }
+    });
+    </script>
+</body>
+</html>
