@@ -9,7 +9,8 @@
     <!--boton operacion-->
     <button id="operacionBtn1"
     style="width: 150px; height: 30px; background-color: moccasin; color: black;
-    font-size: 20px; justify-content: center; position: absolute; top: 1%;">Operacion</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 1%; border: none; border-radius: 5%;
+    cursor: pointer;">Operacion</button>
 
     <!--campo oculto para escrivir la operacion-->
     <div id="campo1" style="display: none; position: absolute; top: 10%;">
@@ -22,7 +23,8 @@
     <!--boton operario-->
     <button id="operarioBtn2"
     style="width: 150px; height: 30px; background-color: lightgreen; color: black;
-    font-size: 20px; justify-content: center; position: absolute; top: 1%; left: 57%;">Operario</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 1%; left: 57%; border: none; border-radius: 5%;
+    cursor: pointer;">Operario</button>
 
     <!--campo ocul;to para escrivir el operario-->
     <div id="campo2" style="display: none; position: absolute; top: 10%;">
@@ -33,24 +35,33 @@
     <div id="resultado2" style="position: absolute; top: 7%; left: 70%;"></div>
 
     <!--boton redondo-->
-    <button style="border-radius: 50%; width: 200px; height: 200px; background-color: #4CAF50; color: black;
-    font-size: 60px; justify-content: center; position: absolute; top: 30%; left: 25%; " >0</button>
+    <button id="redondoBtn"
+    style="border-radius: 50%; width: 200px; height: 200px; background-color: #4CAF50;
+    justify-content: center; position: absolute; top: 30%; left: 25%; border: none;
+    cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    "><span class="top" style="font-size: 20px; color: white; position: absolute; top: 10%; display: none;">0</span>
+      <span class="center" style="font-size: 60px; color: black;">0</span>
+      <span class="height" style="font-size: 20px; color: white; position: absolute; top: 80%; display: none;">0</span></button>
 
     <!--boton meta-->
     <button style="width: 80px; height: 80px; background-color: darkgray; color: black;
-    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 10%; ">meta<br>0</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 10%; border: none;
+    border-radius: 5%; cursor: pointer; line-height: 1.4;">Meta<br>0</button>
 
     <!--boton ritmo-->
     <button style="width: 80px; height: 80px; background-color: darkgrey; color: black;
-    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 40%; ">ritmo<br>0</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 40%; border: none;
+    border-radius: 5%; line-height: 1.4;">Ritmo<br>0</button>
 
     <!--boton dia-->
     <button style="width: 80px; height: 80px; background-color: darkgrey; color: black; 
-    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 70%;">dia<br>0</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 70%; left: 70%; border: none;
+    border-radius: 5%; line-height: 1.4;">Dia<br>0</button>
 
     <!--boton de cerrar secion-->
     <button style="width: 150px; height: 30px; background-color: indianred; color: black; 
-    font-size: 20px; justify-content: center; position: absolute; top: 90%;">Cerrar Sesion</button>
+    font-size: 20px; justify-content: center; position: absolute; top: 90%; border: none;
+    border-radius: 5%; cursor: pointer;">Cerrar Sesion</button>
 
     <script>
         //operacion
@@ -101,6 +112,52 @@
         // Limpiar
         input2.value = "";
         campo2.style.display = "none";
+      }
+    });
+    //boton redondo
+    const redondoBtn = document.getElementById("redondoBtn");
+    const topNum = redondoBtn.querySelector(".top");
+    const centerNum = redondoBtn.querySelector(".center");
+    const heightNum = redondoBtn.querySelector(".height");
+
+    let clickCount = 0;
+    let timer = null;
+    let seconds = 0;
+
+    redondoBtn.addEventListener("click", () => {
+      clickCount++;
+      centerNum.textContent = clickCount;
+
+      if (clickCount === 1) {
+        // primer click inicia contador abajo
+        seconds = 0;
+        heightNum.textContent = seconds;
+        heightNum.style.display = "block";
+
+        timer = setInterval(() => {
+          seconds++;
+          heightNum.textContent = seconds;
+        }, 1000);
+      
+      }else{
+        // en el siguente click
+        // mostrara el resultado exacto arriba
+        //reiniciara el contador abajo
+        topNum.textContent = seconds;
+        topNum.style.display = "block";
+
+        clearInterval(timer);
+
+        //reiniciar abajo
+        seconds = 0;
+
+        heightNum.textContent = seconds;
+        heightNum.style.display = "block";
+
+        timer = setInterval(() => {
+          seconds++;
+          heightNum.textContent = seconds;
+        }, 1000);
       }
     });
     </script>
