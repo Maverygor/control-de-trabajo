@@ -95,9 +95,7 @@
       const texto = input1.value.trim();
       if (texto !== "") {
         // Mostrar operación debajo
-        const p = document.createElement("p");
-        p.textContent = "⛏️" + texto;
-        resultado1.appendChild(p);
+        resultado1.textContent = "⛏️ " + texto;
 
         // Limpiar
         input1.value = "";
@@ -120,9 +118,7 @@
       const texto = input2.value.trim();
       if (texto !== "") {
         // Mostrar operación debajo
-        const p = document.createElement("p");
-        p.textContent = "👷" + texto;
-        resultado2.appendChild(p);
+        resultado2.textContent = "👷 " + texto;
 
         // Limpiar
         input2.value = "";
