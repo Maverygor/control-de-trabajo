@@ -27,7 +27,7 @@
     cursor: pointer;">Operario</button>
 
     <!--campo ocul;to para escrivir el operario-->
-    <div id="campo2" style="display: none; position: absolute; top: 10%; left: 50%;">
+    <div id="campo2" style="display: none; position: absolute; top: 10%; left: 50%; z-index: 1000;">
         <input type="text" id="nombreOperario" placeholder="nombre del operario">
         <button id="guardarBtn2">Guardar</button>
     </div>
@@ -44,22 +44,32 @@
       <span class="height" style="font-size: 20px; color: white; position: absolute; top: 80%; display: none;">0</span></button>
 
     <!--boton porcentaje-->
-    <button style="width: 80px; height: 80px; background-color: darkgray; color: black;
+    <button id="porcentaje"
+    style="width: 80px; height: 80px; background-color: darkgray; color: black;
     font-size: 20px; justify-content: center; position: absolute; top: 55%; left: 10%; border: none;
     border-radius: 5%; line-height: 1.4;">%<br>0</button>
 
     <!--boton meta-->
-    <button style="width: 80px; height: 80px; background-color: darkgray; color: black;
+    <button id="metaBtn"
+    style="width: 80px; height: 80px; background-color: darkgray; color: black;
     font-size: 20px; justify-content: center; position: absolute; top: 55%; left: 40%; border: none;
     border-radius: 5%; cursor: pointer; line-height: 1.4;">Meta<br>0</button>
 
+    <!--campo oculto para la meta-->
+    <div id="campo3" style="display: none; position: absolute; top: 70%; left: 40%; z-index: 1000;">
+      <input type="text" id="nombreMeta" placeholder="nombre de la meta">
+      <button id="guardarBtn3">Guardar</button>
+    </div>
+
     <!--boton dia-->
-    <button style="width: 80px; height: 80px; background-color: darkgrey; color: black; 
+    <button id="diaBtn"
+    style="width: 80px; height: 80px; background-color: darkgrey; color: black; 
     font-size: 20px; justify-content: center; position: absolute; top: 55%; left: 70%; border: none;
     border-radius: 5%; line-height: 1.4;">Dia<br>0</button>
 
     <!--boton ritmo-->
-    <button style="width: 80px; height: 80px; background-color: darkgrey; color: black;
+    <button id="ritmoBtn"
+    style="width: 80px; height: 80px; background-color: darkgrey; color: black;
     font-size: 20px; justify-content: center; position: absolute; top: 70%; left:70%; border: none;
     border-radius: 5%; line-height: 1.4;">Ritmo<br>0</button> 
     
@@ -78,99 +88,192 @@
     font-size: 20px; justify-content: center; position: absolute; top: 90%; border: none;
     border-radius: 5%; cursor: pointer;">Cerrar Sesion</button>
 
-    <script>
-        //operacion
-        const operacionBtn1 = document.getElementById("operacionBtn1");
-        const campo1 = document.getElementById("campo1");
-        const guardarBtn1 = document.getElementById("guardarBtn1");
-        const input1 = document.getElementById("nombreOperacion");
-        const resultado1 = document.getElementById("resultado1");
-        //mostrar campo al aser clic
-        operacionBtn1.addEventListener("click", () => {
-            campo1.style.display = "block";
-            input1.focus();
-        });
-         // Guardar el nombre escrito
-    guardarBtn1.addEventListener("click", () => {
-      const texto = input1.value.trim();
-      if (texto !== "") {
-        // Mostrar operación debajo
-        resultado1.textContent = "⛏️ " + texto;
+<script>
+// ===== OPERACIÓN =====
+const operacionBtn1 = document.getElementById("operacionBtn1");
+const campo1 = document.getElementById("campo1");
+const guardarBtn1 = document.getElementById("guardarBtn1");
+const input1 = document.getElementById("nombreOperacion");
+const resultado1 = document.getElementById("resultado1");
 
-        // Limpiar
-        input1.value = "";
-        campo1.style.display = "none";
-      }
-    });
-    //operario
-    const operarioBtn2 = document.getElementById("operarioBtn2");
-    const campo2 = document.getElementById("campo2");
-    const guardarBtn2 = document.getElementById("guardarBtn2");
-    const input2 = document.getElementById("nombreOperario");
-    const resultado2 = document.getElementById("resultado2");
-        //mostrar campo al aser clic
-        operarioBtn2.addEventListener("click", () => {
-            campo2.style.display = "block";
-            input2.focus();
-        });
-         // Guardar el nombre escrito
-    guardarBtn2.addEventListener("click", () => {
-      const texto = input2.value.trim();
-      if (texto !== "") {
-        // Mostrar operación debajo
-        resultado2.textContent = "👷 " + texto;
+operacionBtn1.addEventListener("click", () => {
+  campo1.style.display = "block";
+  input1.focus();
+});
 
-        // Limpiar
-        input2.value = "";
-        campo2.style.display = "none";
-      }
-    });
-    //boton redondo
-    const redondoBtn = document.getElementById("redondoBtn");
-    const topNum = redondoBtn.querySelector(".top");
-    const centerNum = redondoBtn.querySelector(".center");
-    const heightNum = redondoBtn.querySelector(".height");
+guardarBtn1.addEventListener("click", () => {
+  const texto = input1.value.trim();
+  if (texto !== "") {
+    resultado1.textContent = "⛏️ " + texto;
+    input1.value = "";
+    campo1.style.display = "none";
+  }
+});
 
-    let clickCount = 0;
-    let timer = null;
-    let seconds = 0;
+// ===== OPERARIO =====
+const operarioBtn2 = document.getElementById("operarioBtn2");
+const campo2 = document.getElementById("campo2");
+const guardarBtn2 = document.getElementById("guardarBtn2");
+const input2 = document.getElementById("nombreOperario");
+const resultado2 = document.getElementById("resultado2");
 
-    redondoBtn.addEventListener("click", () => {
-      clickCount++;
-      centerNum.textContent = clickCount;
+operarioBtn2.addEventListener("click", () => {
+  campo2.style.display = "block";
+  input2.focus();
+});
 
-      if (clickCount === 1) {
-        // primer click inicia contador abajo
-        seconds = 0;
-        heightNum.textContent = seconds;
-        heightNum.style.display = "block";
+guardarBtn2.addEventListener("click", () => {
+  const texto = input2.value.trim();
+  if (texto !== "") {
+    resultado2.textContent = "👷 " + texto;
+    input2.value = "";
+    campo2.style.display = "none";
+  }
+});
 
-        timer = setInterval(() => {
-          seconds++;
-          heightNum.textContent = seconds;
-        }, 1000);
-      
-      }else{
-        // en el siguente click
-        // mostrara el resultado exacto arriba
-        //reiniciara el contador abajo
-        topNum.textContent = seconds;
-        topNum.style.display = "block";
+// ===== BOTONES PRINCIPALES =====
+const redondoBtn = document.getElementById("redondoBtn");
+const topNum = redondoBtn.querySelector(".top");
+const centerNum = redondoBtn.querySelector(".center");
+const heightNum = redondoBtn.querySelector(".height");
+const porcentajeBtn = document.getElementById("porcentaje");
+const metaBtn = document.getElementById("metaBtn");
+const ritmoBtn = document.getElementById("ritmoBtn");
 
-        clearInterval(timer);
+let clickCount = 0;
+let timer = null;
+let seconds = 0;
+let meta = 0;
+let horaInicio = new Date();
+let clickTimes = []; // guarda las marcas de tiempo de los clics recientes
+const windowSeconds = 3600; // segundos usados para medir el ritmo (ajusta si quieres)
 
-        //reiniciar abajo
-        seconds = 0;
 
-        heightNum.textContent = seconds;
-        heightNum.style.display = "block";
+// 🌀 Reiniciar botón
+function reiniciarBoton() {
+  clearInterval(timer);
+  clickCount = 0;
+  seconds = 0;
+  centerNum.textContent = "0";
+  topNum.style.display = "none";
+  heightNum.style.display = "none";
+  porcentajeBtn.innerHTML = `%<br>0`;
+  ritmoBtn.innerHTML = `Ritmo<br>0`;
+  horaInicio = new Date();
+  console.log("🔄 Botón reiniciado automáticamente a la hora exacta");
 
-        timer = setInterval(() => {
-          seconds++;
-          heightNum.textContent = seconds;
-        }, 1000);
-      }
-    });
-    </script>
+  redondoBtn.style.backgroundColor = "#2E7D32";
+  setTimeout(() => (redondoBtn.style.backgroundColor = "#4CAF50"), 1000);
+}
+
+// 🎯 Programar reinicio cada hora exacta
+function programarReinicioCadaHora() {
+  const ahora = new Date();
+  const minutos = ahora.getMinutes();
+  const segundos = ahora.getSeconds();
+  const msHastaHora = ((60 - minutos - 1) * 60 + (60 - segundos)) * 1000;
+
+  setTimeout(() => {
+    reiniciarBoton();
+    setInterval(reiniciarBoton, 3600000);
+  }, msHastaHora);
+
+  console.log(
+    `🕒 Reinicio programado para la próxima hora en ${(
+      msHastaHora / 1000 / 60
+    ).toFixed(2)} minutos`
+  );
+}
+
+programarReinicioCadaHora();
+
+// ⚡ Evento de clic en el botón redondo
+redondoBtn.addEventListener("click", () => {
+  clickCount++;
+  centerNum.textContent = clickCount;
+
+  // Calcular porcentaje
+  if (meta > 0) {
+    const porcentaje = ((clickCount / meta) * 100).toFixed(1);
+    porcentajeBtn.innerHTML = `%<br>${porcentaje}`;
+  }
+
+ // Calcular ritmo basado en la ventana de tiempo reciente
+const now = Date.now();
+clickTimes.push(now);
+
+// eliminar clics más antiguos que el rango de ventana
+while (clickTimes.length && clickTimes[0] < now - windowSeconds * 1000) {
+  clickTimes.shift();
+}
+
+const ahora = new Date();
+const minutosTranscurridos = (ahora - horaInicio) / 1000 / 60;
+const minutosRestantes = Math.max(0, 60 - minutosTranscurridos);
+let ritmoProyectado = clickCount;
+
+const clicksEnVentana = clickTimes.length;
+
+if (clicksEnVentana > 0) {
+  const ratePerSec = clicksEnVentana / windowSeconds;
+  const futurosClicks = ratePerSec * minutosRestantes * 60;
+  ritmoProyectado = clickCount + futurosClicks;
+}
+
+ritmoBtn.innerHTML = `Ritmo<br>${Math.round(ritmoProyectado)}`;
+
+
+
+  // Control del cronómetro inferior
+  if (clickCount === 1) {
+    seconds = 0;
+    heightNum.textContent = seconds;
+    heightNum.style.display = "block";
+
+    timer = setInterval(() => {
+      seconds++;
+      heightNum.textContent = seconds;
+    }, 1000);
+  } else {
+    topNum.textContent = seconds;
+    topNum.style.display = "block";
+
+    clearInterval(timer);
+    seconds = 0;
+    heightNum.textContent = seconds;
+    heightNum.style.display = "block";
+
+    timer = setInterval(() => {
+      seconds++;
+      heightNum.textContent = seconds;
+    }, 1000);
+  }
+});
+
+
+// ===== BOTÓN META =====
+const campo3 = document.getElementById("campo3");
+const guardarBtn3 = document.getElementById("guardarBtn3");
+const input3 = document.getElementById("nombreMeta");
+
+metaBtn.addEventListener("click", () => {
+  campo3.style.display = "block";
+  input3.focus();
+});
+
+guardarBtn3.addEventListener("click", () => {
+  const valor = parseInt(input3.value.trim());
+  if (!isNaN(valor) && valor > 0) {
+    meta = valor;
+    metaBtn.innerHTML = `Meta<br>${meta}`;
+    input3.value = "";
+    campo3.style.display = "none";
+  } else {
+    alert("Por favor ingresa un número válido para la meta.");
+  }
+});
+</script>
+
+
 </body>
 </html>
