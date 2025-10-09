@@ -144,7 +144,6 @@ let timer = null;
 let seconds = 0;
 let meta = 0;
 let horaInicio = new Date();
-let clickTimes = [];
 
 // 🌀 Reiniciar botón
 function reiniciarBoton() {
@@ -157,7 +156,6 @@ function reiniciarBoton() {
   porcentajeBtn.innerHTML = `%<br>0`;
   ritmoBtn.innerHTML = `Ritmo<br>0`;
   horaInicio = new Date();
-  clickTimes = [];
   console.log("🔄 Botón reiniciado automáticamente a la hora exacta");
 
   redondoBtn.style.backgroundColor = "#2E7D32";
@@ -176,60 +174,53 @@ function programarReinicioCadaHora() {
     setInterval(reiniciarBoton, 3600000);
   }, msHastaHora);
 
-  console.log(
-    `🕒 Reinicio programado para la próxima hora en ${(
-      msHastaHora / 1000 / 60
-    ).toFixed(2)} minutos`
-  );
+  console.log(`🕒 Reinicio programado en ${(msHastaHora / 1000 / 60).toFixed(2)} minutos`);
 }
-
 programarReinicioCadaHora();
 
 // ===== FUNCIONES DE CÁLCULO =====
-
-// ✅ Actualiza el porcentaje
-function actualizarPorcentaje() {
-  if (meta > 0) {
-    const porcentaje = ((clickCount / meta) * 100).toFixed(1);
-    porcentajeBtn.innerHTML = `%<br>${porcentaje}`;
-  } else {
+function actualizarValores() {
+  if (meta <= 0) {
     porcentajeBtn.innerHTML = `%<br>0`;
+    ritmoBtn.innerHTML = `Ritmo<br>0`;
+    redondoBtn.style.backgroundColor = "#4CAF50";
+    return;
   }
-}
 
-// ✅ Nueva función de ritmo mejorada
-function actualizarRitmo() {
   const ahora = new Date();
-
-  // Minuto actual dentro de la hora (0–59)
-  const minutoActual = ahora.getMinutes();
-
-  // Si es la primera vez, definimos la hora de inicio
-  if (!horaInicio) horaInicio = new Date();
-
   const minutosTranscurridos = (ahora - horaInicio) / 1000 / 60;
-  const minutosRestantes = Math.max(0, 60 - minutoActual);
+  if (minutosTranscurridos <= 0) return;
 
-  if (minutosTranscurridos > 0) {
-    // Ritmo actual (clicks/hora)
-    const ritmoPorHora = (clickCount / minutosTranscurridos) * 60;
+  // Calcular ritmo y porcentaje
+  const ritmoPorHora = (clickCount / minutosTranscurridos) * 60;
+  const porcentaje = ((ritmoPorHora / meta) * 100).toFixed(1);
 
-    // Proyección real al final de la hora actual
-    const proyeccionHora = clickCount + (ritmoPorHora / 60) * minutosRestantes;
+  porcentajeBtn.innerHTML = `%<br>${porcentaje}`;
+  ritmoBtn.innerHTML = `Ritmo<br>${Math.round(ritmoPorHora)}`;
 
-    ritmoBtn.innerHTML = `Ritmo<br>${Math.round(proyeccionHora)}`;
+  // 🎨 Color del botón redondo
+  const p = parseFloat(porcentaje);
+  if (p <= 60) {
+    redondoBtn.style.backgroundColor = "#e53935"; // rojo
+  } else if (p <= 80) {
+    redondoBtn.style.backgroundColor = "#fdd835"; // amarillo
+  } else {
+    redondoBtn.style.backgroundColor = "#43a047"; // verde
   }
 }
+
+// 🔁 Recalcular automáticamente cada minuto (aunque no haya clics)
+setInterval(() => {
+  actualizarValores();
+}, 60000); // cada minuto
 
 // ⚡ Evento de clic en el botón redondo
 redondoBtn.addEventListener("click", () => {
   clickCount++;
   centerNum.textContent = clickCount;
+  actualizarValores();
 
-  actualizarPorcentaje();
-  actualizarRitmo(); // ✅ se recalcula el ritmo en cada clic
-
-  // ===== Control del cronómetro inferior (lap) =====
+  // ===== Control del cronómetro inferior =====
   if (clickCount === 1) {
     seconds = 0;
     heightNum.textContent = seconds;
@@ -272,7 +263,7 @@ guardarBtn3.addEventListener("click", () => {
     metaBtn.innerHTML = `Meta<br>${meta}`;
     input3.value = "";
     campo3.style.display = "none";
-    actualizarPorcentaje();
+    actualizarValores();
   } else {
     alert("Por favor ingresa un número válido para la meta.");
   }
